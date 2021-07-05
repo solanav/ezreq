@@ -4,6 +4,22 @@ It should make it easier to make scrappers.
 
 Compiles to Python.
 
+# How to run
+Compile EZReq:
+```bash
+make
+```
+
+Compile the source code:
+```bash
+ ./sopy examples/test.ezr
+ ```
+ 
+ Run the code:
+ ```bash
+ python3 examples/test.py
+ ```
+
 # Example
 Source Code (`examples/test.ezr`):
 ```python
