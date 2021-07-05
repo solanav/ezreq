@@ -1,0 +1,9 @@
+begin
+    web = get "https://example.org"
+
+    title = extract web "<title>" "</title>"
+    print title
+
+    ref = extract web "<a href=\"" "\">"
+    print ref
+end
