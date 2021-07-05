@@ -1,2 +1,2 @@
 #!/bin/bash
-make && ./sopy examples/test.sov && clear && python3 examples/test.py
+make && ./ezreq examples/test.ezr && clear && python3 examples/test.py

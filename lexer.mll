@@ -26,7 +26,7 @@ let alpha = ['a'-'z' 'A'-'Z']
 let id = alpha (alpha | digit | '_')*
 let str = "\"" (alpha | digit | '_' | ':' | '/' | '.' | '<' | '>' | '=' | ' ' | "\\\"")* "\""
 
-rule sopy = parse
+rule ezreq = parse
     | "="  { ASSIGN }
     | digits as d {
         (* parse literal *)
@@ -44,7 +44,7 @@ rule sopy = parse
         try List.assoc l keywords
         with Not_found -> STR s
     }
-    | '\n' {incr line_num; sopy lexbuf} (* count new line characters *)
-    | blank { sopy lexbuf } (* skipping blank characters *)
+    | '\n' {incr line_num; ezreq lexbuf} (* count new line characters *)
+    | blank { ezreq lexbuf } (* skipping blank characters *)
     | _ { syntax_error "couldn't identify the token" }
     | eof { EOF }

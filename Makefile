@@ -8,8 +8,8 @@ main:
 	ocamlc -c lexer.ml
 	ocamlc -c parser.ml
 	
-	ocamlc -c sopy.ml
-	ocamlc -o sopy str.cma codegen.cmo lexer.cmo parser.cmo sopy.cmo
+	ocamlc -c ezreq.ml
+	ocamlc -o ezreq str.cma codegen.cmo lexer.cmo parser.cmo ezreq.cmo
 
 clean:
 	rm -f examples/*.py
@@ -18,4 +18,4 @@ clean:
 	rm -f lexer.ml
 	rm -f parser.ml
 	rm -f parser.mli
-	rm -f sopy
+	rm -f ezreq
