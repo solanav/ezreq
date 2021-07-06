@@ -24,13 +24,9 @@ Compile the source code:
 Source Code (`examples/test.ezr`):
 ```python
 begin
-    web = get "https://example.org"
-
-    title = extract web "<title>" "</title>"
-    print title
-
-    ref = extract web "<a href=\"" "\">"
-    print ref
+    title = get "https://example.org"
+    |> extract "<title>" "</title>"
+    |> print
 end
 ```
 
@@ -48,14 +44,13 @@ def print_ezreq(var):
 
 import requests
 
-web = requests.get("https://example.org")
-title = web.text.split("<title>")[1].split("</title>")[0]
-print_ezreq(title)
-ref = web.text.split("<a href=\"")[1].split("\">")[0]
-print_ezreq(ref)
+title = requests.get("https://example.org")
+pipe_tmp = title
+pipe_tmp = pipe_tmp.text.split("<title>")[1].split("</title>")[0]
+print_ezreq(pipe_tmp)
+title = pipe_tmp
 
 exit(0)
-
 ```
 
 Result:
