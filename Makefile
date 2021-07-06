@@ -2,7 +2,7 @@ main:
 	ocamlc -c codegen.ml
 	
 	ocamllex lexer.mll       # generates lexer.ml
-	ocamlyacc parser.mly     # generates parser.ml and parser.mli
+	ocamlyacc -v parser.mly     # generates parser.ml and parser.mli
 
 	ocamlc -c parser.mli
 	ocamlc -c lexer.ml

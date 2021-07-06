@@ -1,0 +1,10 @@
+begin
+    title = get "https://example.org"
+    |> extract "<title>" "</title>"
+    |> print
+
+    get "https://stallman.org"
+    |> print
+
+    print title
+end

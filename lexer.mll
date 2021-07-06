@@ -27,6 +27,7 @@ let id = alpha (alpha | digit | '_')*
 let str = "\"" (alpha | digit | '_' | ':' | '/' | '.' | '<' | '>' | '=' | ' ' | "\\\"")* "\""
 
 rule ezreq = parse
+    | "|>" { PIPE }
     | "="  { ASSIGN }
     | digits as d {
         (* parse literal *)

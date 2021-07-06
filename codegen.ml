@@ -26,8 +26,13 @@ let generate_comment t = gen_nonl ("# " ^ t)
 
 let generate_assign t = gen_nonl (t ^ " = ")
 
-let generate_get var url = gen (var ^ " = requests.get(" ^ url ^ ")")
-
-let generate_print var = gen ("print_ezreq(" ^ var ^ ")")
+let generate_get var url = gen (var ^ " = requests.get(" ^ url ^ ")\npipe_tmp = " ^ var)
+let generate_get_pipe url = gen ("pipe_tmp = requests.get(" ^ url ^ ")")
 
 let generate_extract var origin s e = gen (var ^ " = " ^ origin ^ ".text.split(" ^ s ^ ")[1].split(" ^ e ^ ")[0]")
+let generate_extract_pipe s e = gen ("pipe_tmp = pipe_tmp.text.split(" ^ s ^ ")[1].split(" ^ e ^ ")[0]")
+
+let generate_print var = gen ("print_ezreq(" ^ var ^ ")")
+let generate_print_pipe () = gen ("print_ezreq(pipe_tmp)")
+
+let finish_pipe var = gen (var ^ " = pipe_tmp")

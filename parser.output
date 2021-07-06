@@ -1,0 +1,314 @@
+   0  $accept : %entry% $end
+
+   1  program : begin_stmt statements end_stmt EOF
+
+   2  begin_stmt : BEGIN
+
+   3  end_stmt : END
+
+   4  statements :
+   5             | statement statements
+   6             | statement pipe_statements
+
+   7  statement : ID ASSIGN GET lstr
+   8            | GET lstr
+   9            | ID ASSIGN EXTRACT ID lstr lstr
+  10            | PRINT ID
+
+  11  pipe_statements :
+  12                  | pipe_statement pipe_statements
+  13                  | pipe_statement statements
+
+  14  pipe_statement : PIPE EXTRACT lstr lstr
+  15                 | PIPE PRINT
+
+  16  lstr : STR
+
+  17  %entry% : '\001' program
+
+state 0
+	$accept : . %entry% $end  (0)
+
+	'\001'  shift 1
+	.  error
+
+	%entry%  goto 2
+
+
+state 1
+	%entry% : '\001' . program  (17)
+
+	BEGIN  shift 3
+	.  error
+
+	program  goto 4
+	begin_stmt  goto 5
+
+
+state 2
+	$accept : %entry% . $end  (0)
+
+	$end  accept
+
+
+state 3
+	begin_stmt : BEGIN .  (2)
+
+	.  reduce 2
+
+
+state 4
+	%entry% : '\001' program .  (17)
+
+	.  reduce 17
+
+
+state 5
+	program : begin_stmt . statements end_stmt EOF  (1)
+	statements : .  (4)
+
+	ID  shift 6
+	GET  shift 7
+	PRINT  shift 8
+	END  reduce 4
+
+	statements  goto 9
+	statement  goto 10
+
+
+state 6
+	statement : ID . ASSIGN GET lstr  (7)
+	statement : ID . ASSIGN EXTRACT ID lstr lstr  (9)
+
+	ASSIGN  shift 11
+	.  error
+
+
+state 7
+	statement : GET . lstr  (8)
+
+	STR  shift 12
+	.  error
+
+	lstr  goto 13
+
+
+state 8
+	statement : PRINT . ID  (10)
+
+	ID  shift 14
+	.  error
+
+
+state 9
+	program : begin_stmt statements . end_stmt EOF  (1)
+
+	END  shift 15
+	.  error
+
+	end_stmt  goto 16
+
+
+10: reduce/reduce conflict (reduce 4, reduce 11) on END
+state 10
+	statements : statement . statements  (5)
+	statements : statement . pipe_statements  (6)
+	statements : .  (4)
+	pipe_statements : .  (11)
+
+	ID  shift 6
+	GET  shift 7
+	PRINT  shift 8
+	PIPE  shift 17
+	END  reduce 4
+
+	statements  goto 18
+	statement  goto 10
+	pipe_statements  goto 19
+	pipe_statement  goto 20
+
+
+state 11
+	statement : ID ASSIGN . GET lstr  (7)
+	statement : ID ASSIGN . EXTRACT ID lstr lstr  (9)
+
+	GET  shift 21
+	EXTRACT  shift 22
+	.  error
+
+
+state 12
+	lstr : STR .  (16)
+
+	.  reduce 16
+
+
+state 13
+	statement : GET lstr .  (8)
+
+	.  reduce 8
+
+
+state 14
+	statement : PRINT ID .  (10)
+
+	.  reduce 10
+
+
+state 15
+	end_stmt : END .  (3)
+
+	.  reduce 3
+
+
+state 16
+	program : begin_stmt statements end_stmt . EOF  (1)
+
+	EOF  shift 23
+	.  error
+
+
+state 17
+	pipe_statement : PIPE . EXTRACT lstr lstr  (14)
+	pipe_statement : PIPE . PRINT  (15)
+
+	PRINT  shift 24
+	EXTRACT  shift 25
+	.  error
+
+
+state 18
+	statements : statement statements .  (5)
+
+	.  reduce 5
+
+
+state 19
+	statements : statement pipe_statements .  (6)
+
+	.  reduce 6
+
+
+20: reduce/reduce conflict (reduce 4, reduce 11) on END
+state 20
+	pipe_statements : pipe_statement . pipe_statements  (12)
+	pipe_statements : pipe_statement . statements  (13)
+	statements : .  (4)
+	pipe_statements : .  (11)
+
+	ID  shift 6
+	GET  shift 7
+	PRINT  shift 8
+	PIPE  shift 17
+	END  reduce 4
+
+	statements  goto 26
+	statement  goto 10
+	pipe_statements  goto 27
+	pipe_statement  goto 20
+
+
+state 21
+	statement : ID ASSIGN GET . lstr  (7)
+
+	STR  shift 12
+	.  error
+
+	lstr  goto 28
+
+
+state 22
+	statement : ID ASSIGN EXTRACT . ID lstr lstr  (9)
+
+	ID  shift 29
+	.  error
+
+
+state 23
+	program : begin_stmt statements end_stmt EOF .  (1)
+
+	.  reduce 1
+
+
+state 24
+	pipe_statement : PIPE PRINT .  (15)
+
+	.  reduce 15
+
+
+state 25
+	pipe_statement : PIPE EXTRACT . lstr lstr  (14)
+
+	STR  shift 12
+	.  error
+
+	lstr  goto 30
+
+
+state 26
+	pipe_statements : pipe_statement statements .  (13)
+
+	.  reduce 13
+
+
+state 27
+	pipe_statements : pipe_statement pipe_statements .  (12)
+
+	.  reduce 12
+
+
+state 28
+	statement : ID ASSIGN GET lstr .  (7)
+
+	.  reduce 7
+
+
+state 29
+	statement : ID ASSIGN EXTRACT ID . lstr lstr  (9)
+
+	STR  shift 12
+	.  error
+
+	lstr  goto 31
+
+
+state 30
+	pipe_statement : PIPE EXTRACT lstr . lstr  (14)
+
+	STR  shift 12
+	.  error
+
+	lstr  goto 32
+
+
+state 31
+	statement : ID ASSIGN EXTRACT ID lstr . lstr  (9)
+
+	STR  shift 12
+	.  error
+
+	lstr  goto 33
+
+
+state 32
+	pipe_statement : PIPE EXTRACT lstr lstr .  (14)
+
+	.  reduce 14
+
+
+state 33
+	statement : ID ASSIGN EXTRACT ID lstr lstr .  (9)
+
+	.  reduce 9
+
+
+Rules never reduced:
+	pipe_statements :  (11)
+
+
+State 10 contains 1 reduce/reduce conflict.
+State 20 contains 1 reduce/reduce conflict.
+
+
+17 terminals, 10 nonterminals
+18 grammar rules, 34 states

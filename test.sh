@@ -1,2 +1,3 @@
 #!/bin/bash
-make && ./ezreq examples/test.ezr && clear && python3 examples/test.py
+export OCAMLRUNPARAM=p
+make && ./ezreq examples/test2.ezr && echo && python3 examples/test2.py
